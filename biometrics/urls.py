@@ -9,12 +9,12 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^keystroke/students$', student_views.StudentAPIView.as_view()),
-    url(r'^keystroke/students/(?P<pk>\d+)/$', student_views.StudentRudView.as_view()),
+    url(r'^students$', student_views.StudentAPIView.as_view()),
+    url(r'^students/(?P<pk>\d+)/$', student_views.StudentRudView.as_view()),
     url(r'^keystroke/test/(?P<pk>\d+)/$', keystroke_views.KeystrokeTestTypeAPIView.as_view()),
     url(r'^keystroke/session/(?P<pk>\d+)/$', keystroke_views.KeystrokeTestSessionAPIView.as_view()),
-    url(r'^keystroke/distance/$', keystroke_views.KeystrokeTestDistanceAPIView.as_view()),
-    url(r'^face/distance/$', face_views.FaceDistanceAPIView.as_view()),
+    url(r'^keystroke/distance$', keystroke_views.KeystrokeTestDistanceAPIView.as_view()),
+    url(r'^face/distance$', face_views.FaceDistanceAPIView.as_view()),
 ]
 
 url = format_suffix_patterns(urlpatterns)
