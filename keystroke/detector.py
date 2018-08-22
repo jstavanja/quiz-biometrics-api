@@ -5,7 +5,6 @@ import sys
 
 # returns the average timing vector for a test (gets column means)
 def sessionAverage(matrix):
-  print type(matrix)
   return np.mean(np.array(matrix), axis=0)
 
 class Detector:

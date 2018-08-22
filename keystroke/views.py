@@ -8,13 +8,14 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework import status
 
+from student.models import Student
 from .models import KeystrokeTestType, KeystrokeTestSession
 from .serializers import KeystrokeTestTypeSerializer, KeystrokeTestSessionSerializer
 
 from .detector import Detector
 
 
-class KeystrokeTestTypeAPIView(mixins.CreateModelMixin, generics.ListAPIView):
+class KeystrokeTestTypeAPIView(mixins.CreateModelMixin, generics.RetrieveUpdateDestroyAPIView):
   lookup_field = 'pk'
   serializer_class = KeystrokeTestTypeSerializer
 
@@ -48,11 +49,14 @@ class KeystrokeTestDistanceAPIView(generics.ListAPIView):
 
   def post(self, request, *args, **kwargs):
 
-    user_id = Student.objects.filter(moodle_username=request.POST.get('moodle_username'))[0].id
-    test_type_id = request.POST.get('test_type')
+    req = json.loads(request.body.decode('utf-8'))
+    user_id = Student.objects.filter(moodle_username=req['moodle_username'])[0].id
+    test_type_id = req['test_type']
+
+    print "test"
     
     original_matrix = json.loads(KeystrokeTestSession.objects.filter(student=user_id, test_type=test_type_id)[0].timing_matrix)
-    current_matrix = json.loads(request.POST.get('current_matrix'))
+    current_matrix = req['current_matrix']
 
     # calculate distance using detector.py
     d = Detector(original_matrix, current_matrix)
