@@ -1,0 +1,66 @@
+.hidden.menu {
+  display: none;
+}
+.masthead.segment {
+  min-height: auto;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1em 0em;
+}
+.masthead.segment > * {
+  margin-top: 10px;   
+}
+.masthead .logo.item img {
+  margin-right: 1em;
+}
+.masthead .ui.menu .ui.button {
+  margin-left: 0.5em;
+}
+.masthead h1.ui.header {
+  margin-top: 1em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+.ui.basic.modal .content {
+  text-align: center;
+}
+
+.ui.basic.modal {
+  left: auto;
+  margin: 0 auto;
+}
+
+#remainingRepetitions {
+  font-size: 40px;
+  width: 36px;
+  height: 36px;
+  padding: 5px 15px;
+  background-color: #f3f5f9;
+  border-radius: 50%;
+  color: red;
+  box-shadow: 0 2px 4px rgba(27, 74, 77, 0.05);
+}
+
+#wordInput {
+  height: 40px;
+}
+
+div.ui.container.endoftest {
+  display: none;
+  justify-content: center;
+}
+.test-complete div.ui.container.endoftest {
+  display: flex;
+}
+.test-complete div.ui.container.test-part, .test-complete div.ui.input.test-part {
+  display: none;
+}
