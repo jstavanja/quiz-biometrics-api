@@ -4,8 +4,8 @@
 
 import argparse
 import os
-# import openface
-# import cv2
+import openface
+import cv2
 import numpy as np
 
 class Detector():
@@ -38,7 +38,7 @@ class Detector():
   '''
   Function returns a representation of a face found on the image with path image_path
   '''
-  def get_face_representation(image_path):
+  def get_face_representation(self, image_path):
     # read images into cv2
     image = cv2.imread(image_path)
 
@@ -54,28 +54,28 @@ class Detector():
       raise Exception("Cannot find a face in the image. Image path: " + image_path)
 
     # align face on the image
-    aligned_face = self.aligner.align(image_size_px, image_rgb, rgb_face_bounding_box, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
+    aligned_face = self.aligner.align(self.image_size_px, image_rgb, rgb_face_bounding_box, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
     if aligned_face is None:
       raise Exception("Cannot align the face in the image. Image path: " + image_path)
 
     # get repr
     return self.network.forward(aligned_face)
 
-    def get_distance(self):
-      '''
-      Calculation of the difference
-      '''
-      # get representations for both pictures
-      repr_base = get_face_representation(self.base_image)
-      repr_new = get_face_representation(self.new_image)
+  def get_distance(self):
+    '''
+    Calculation of the difference
+    '''
+    # get representations for both pictures
+    repr_base = self.get_face_representation(self.base_image)
+    repr_new = self.get_face_representation(self.new_image)
 
-      # get distance
-      distance = repr_new - repr_base
+    # get distance
+    distance = repr_new - repr_base
 
-      # get the squared dot product and get rid of negatives
-      dot = np.dot(distance, distance)
+    # get the squared dot product and get rid of negatives
+    dot = np.dot(distance, distance)
 
-      # print distance
-      return dot
+    # print distance
+    return dot
 
 
