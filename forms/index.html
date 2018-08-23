@@ -26,20 +26,39 @@
   <!-- Page Contents -->
   <div class="pusher">
     <div class="ui inverted vertical masthead center aligned segment">
-      <div class="ui text container">
+      <div class="ui text container password_display">
         <h3>Password:</h3>
         <div class="ui huge primary button" id="wordDisplay">q-vDf}784L</i></div>
       </div>
 
-      <div class="ui huge secondary button" ><span id="remainingRepetitions">loading ...</span> more tries needed</i></div>
+      <div class="ui huge secondary button progress_password_text" ><span id="remainingRepetitions">loading ...</span> more tries needed</i></div>
 
       <div id="wordInputWrapper" class="ui icon input loading">
         <input type="text" id="wordInput" placeholder="Enter word here ...">
         <i class="check icon"></i>
       </div>
 
-      <h3>Upload an image of your face:</h3>
-      <input type="file" id="face" name="face_image">
+      <div class="ui huge secondary button" id="keystroke_finish_text" style="display:none">
+          Password test finished  <i class="check circle icon"></i>
+      </div>
+
+      <div id="face_finish_text" style="display:none">
+          <div class="ui huge secondary button">
+              Face test finished  <i class="check circle icon"></i>
+          </div>
+          <h2 class="ui text container">Good luck!</h2>
+      </div>
+      
+
+      <div id="image-upload-inputs" style="display:none">
+        <h3>Upload an image of your face:</h3>
+        <input type="file" id="face" name="face_image">
+      </div>
+
+      <div id="image-upload-loader" style="display:none">
+        Uploading and comparing your image ...
+        <div class="ui active inline loader"></div>
+      </div>
     </div>
   </div>
 

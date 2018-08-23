@@ -144,12 +144,16 @@ const checkIfEndOfTest = () => {
     axios.post('http://localhost:8000/keystroke/distance', {
       "moodle_username": window.currentUser,
       "current_matrix": convertToCSV(allData),
-      "test_type": keystrokeTestID
+      "test_type": keystrokeTestID,
+      "quiz_id": quizID
     }).then((res) => {
-      console.log("server returns:")
-      console.log(res.data)
-      // remove 
-      // check if end of whole biometrics test (two variables for each test)
+      // console.log("server returns:")
+      // console.log(res.data)
+      $('#wordInputWrapper').hide();
+      $('.password_display').hide();
+      $('.progress_password_text').hide();
+      $('#keystroke_finish_text').show();
+      $('#image-upload-inputs').show();
     })
 
     document.querySelector('body').classList.add('test-complete');
@@ -209,17 +213,14 @@ window.onload = () => {
     resetAllVariables()
   })
 
-  window.addEventListener('message', (e) => {
-    console.log("got message with: " + e.data)
-  });
-
   // get the recording test settings from the central API
-  axios.get('http://localhost:8000/keystroke/test/1') // TODO: remove hardcoded number
+  axios.get('http://localhost:8000/quiz/2') // TODO: remove hardcoded number
     .then((response) => {
-      word = response.data.input_text,
-      allRepetitions = response.data.repetitions
+      word = response.data.keystroke_test_type.input_text,
+      allRepetitions = response.data.keystroke_test_type.repetitions
       remainingRepetitions = allRepetitions
-      keystrokeTestID = response.data.id
+      keystrokeTestID = response.data.keystroke_test_type.id
+      quizID = response.data.id
 
       wordDisplay.innerHTML = word
       repetitionDisplay.innerHTML = remainingRepetitions
@@ -231,6 +232,7 @@ window.onload = () => {
   
   // TODO: add check if current moodle user is registered in our system and has a test like this registered
   // also check if he/she/it has a picture uploaded
+  // check if this user has already completed the test
 
   // bind input events to be passed into our measuring function
   wordInput.onkeydown = wordInput.onkeyup = measureTimes
@@ -247,13 +249,17 @@ function setImageInputListener() {
     const formData = new FormData()
     formData.append('user_id', window.currentUser)
     formData.append('current_image', file, file.filename)
+    formData.append('quiz_id', quizID)
+    // show loader
+    $('#image-upload-loader').show();
     axios.post('http://localhost:8000/face/distance', formData)
       .then((res) => {
-        console.log("server returns:")
-        console.log(res.data)
-        // TODO:
-        // remove input
-        // check if end of biometric check
+        // add error check, listen to response (implement error response in django)
+        // console.log("server returns:")
+        // console.log(res.data)
+        $('#image-upload-loader').hide();
+        $('#face_finish_text').show();
+        $('#image-upload-inputs').hide();
       })
   })
 }
