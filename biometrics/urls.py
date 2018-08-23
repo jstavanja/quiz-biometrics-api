@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from keystroke import views as keystroke_views
 from face import views as face_views
 from student import views as student_views
+from quiz import views as quiz_views
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -15,6 +16,7 @@ urlpatterns = [
     url(r'^keystroke/session/(?P<pk>\d+)/$', keystroke_views.KeystrokeTestSessionAPIView.as_view()),
     url(r'^keystroke/distance$', keystroke_views.KeystrokeTestDistanceAPIView.as_view()),
     url(r'^face/distance$', face_views.FaceDistanceAPIView.as_view()),
+    url(r'^quiz/(?P<pk>\d+)/$', quiz_views.QuizInfoAPIView.as_view())
 ]
 
 url = format_suffix_patterns(urlpatterns)

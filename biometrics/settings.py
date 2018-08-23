@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'keystroke.apps.KeystrokeConfig',
     'student.apps.StudentConfig',
     'face.apps.FaceConfig',
+    'quiz.apps.QuizConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
