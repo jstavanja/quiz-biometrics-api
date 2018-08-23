@@ -20,3 +20,13 @@ class KeystrokeTestSession(models.Model):
 
   def __str__(self):
     return "Student: " + str(self.student) + ", Test type: " + str(self.test_type)
+
+
+class KeystrokeTestComparisonResult(models.Model):
+  quiz_id = models.ForeignKey('quiz.Quiz', on_delete=models.CASCADE)
+  student = models.ForeignKey(Student, on_delete=models.CASCADE)
+  test_type = models.ForeignKey(KeystrokeTestType)
+  distance = models.FloatField()
+
+  def __str__(self):
+    return "Student: " + str(self.student) + ", Distance: " + str(self.distance)
