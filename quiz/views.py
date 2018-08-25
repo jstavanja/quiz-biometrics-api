@@ -27,8 +27,17 @@ class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
   def get_queryset(self):
     return Quiz.objects.all()
 
-class DashQuizList(TemplateView):
-  template_name = "quizzes.html"
+# TODO: display only quizzes that the current user has created
+
+class DashQuiz(LoginRequiredMixin, TemplateView):
+  template_name = "quiz_index.html"
+
+  def get_context_data(self, **kwargs):
+    pass
+
+
+class DashQuizList(LoginRequiredMixin, TemplateView):
+  template_name = "quiz_list.html"
 
   def get_context_data(self, **kwargs):
     context = super(DashQuizList, self).get_context_data(**kwargs)
@@ -36,7 +45,7 @@ class DashQuizList(TemplateView):
     return context
 
 class DashQuizResult(LoginRequiredMixin, TemplateView):
-  template_name = "quiz.html"
+  template_name = "quiz_details.html"
 
   def get_context_data(self, **kwargs):
     context = super(DashQuizResult, self).get_context_data(**kwargs)
@@ -69,3 +78,6 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
     context["result_iteritems"] = results.iteritems()
 
     return context
+
+class DashQuizAdd(TemplateView):
+  pass
