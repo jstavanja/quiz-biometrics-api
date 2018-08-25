@@ -5,13 +5,15 @@ import json
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, Http404
+from django.views.generic.base import TemplateView
+
 from rest_framework import generics, mixins
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
-import inspect
 from rest_framework import status
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
 
 from .serializers import QuizSerializer
 from keystroke.serializers import KeystrokeTestTypeSerializer
@@ -19,6 +21,8 @@ from .models import Quiz
 from keystroke.models import KeystrokeTestType, KeystrokeTestComparisonResult
 from face.models import FaceComparisonResult
 from student.models import Student
+
+from .forms import QuizForm, QuizFormSet
 
 class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
   lookup_field = 'pk'
@@ -32,25 +36,31 @@ class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
 class DashQuiz(LoginRequiredMixin, TemplateView):
   template_name = "quiz_index.html"
 
-  def get_context_data(self, **kwargs):
-    pass
-
 
 class DashQuizList(LoginRequiredMixin, TemplateView):
   template_name = "quiz_list.html"
 
   def get_context_data(self, **kwargs):
     context = super(DashQuizList, self).get_context_data(**kwargs)
-    context["quizzes"] = Quiz.objects.all().values()
+    context["quizzes"] = Quiz.objects.filter(quiz_owner = self.request.user).values()
     return context
 
 class DashQuizResult(LoginRequiredMixin, TemplateView):
   template_name = "quiz_details.html"
 
   def get_context_data(self, **kwargs):
+
+
     context = super(DashQuizResult, self).get_context_data(**kwargs)
     quiz_id = self.kwargs['pk']
-    context["quiz"] = Quiz.objects.filter(id=quiz_id)[0]
+    quiz = Quiz.objects.filter(id=quiz_id)[0]
+
+    if quiz.quiz_owner != self.request.user:
+      raise Http404
+
+    context["quiz"] = quiz
+
+
 
     results = {}
 
@@ -79,5 +89,18 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
 
     return context
 
-class DashQuizAdd(TemplateView):
-  pass
+class DashQuizAdd(LoginRequiredMixin, FormMixin, TemplateView):
+  model = Quiz
+  template_name = "quiz_add.html"
+  form_class = QuizForm
+
+  def post(self , request , *args , **kwargs):
+    form = self.get_form()
+    if form.is_valid():
+      instance = form.save(commit=False)
+      instance.quiz_owner = self.request.user
+      instance.save()
+      return HttpResponseRedirect("/dash/quiz/results")
+    else:
+      return self.form_invalid(form)
+    

@@ -24,26 +24,28 @@
           </div>
         </div>
         <a href="/dash/quiz"><i class="arrow alternate circle left icon"></i> Back to quiz index</a>
-        <h2>Quiz Result List</h2>
+        <h2>Add a new quiz</h2>
       </div>
     </div>
   </header>
   <div class="ui vertical segment">
     <div class="ui center container">
-      <p>Choose a quiz from the list to see the students authentication results.</p>
-      <div class="ui tall stacked segment">
-        <div class="ui relaxed divided striped list">
-          {% for quiz in quizzes %}
-          <div class="item">
-            <i class="large question circle middle aligned icon"></i>
-            <div class="content">
-                <a class="header" href="/dash/quiz/results/{{ quiz.id }}">{{ quiz.title }}</a>
-                <div class="description">{{ quiz.date_of_quiz }}</div>
+        <form method="post" action="">
+          {% csrf_token %}
+          {% for field in form %}
+            {{ field.label }}
+            <div class="ui input raised segment container">
+              {{ field }}
             </div>
-          </div>
+          
           {% endfor %}
-        </div>
-      </div>
+          <!-- <table>
+            {{ track_formset }}
+          </table> -->
+          <div class="ui input vertical segment">
+            <input type="submit" class="ui primary button"/>
+          </div>
+        </form>
     </div>
   </div>
 </body>

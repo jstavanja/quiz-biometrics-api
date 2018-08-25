@@ -2,9 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import *
+
 import datetime
 
 class Quiz(models.Model):
+  quiz_owner = models.ForeignKey(User, unique=False, null=True)
   keystroke_test_type = models.ForeignKey('keystroke.KeystrokeTestType', on_delete = models.CASCADE)
   title = models.CharField(max_length=100)
   description = models.CharField(max_length=5000)
