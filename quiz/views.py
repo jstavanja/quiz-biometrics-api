@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import json
 
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from django.shortcuts import render
@@ -60,8 +59,6 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
 
     context["quiz"] = quiz
 
-
-
     results = {}
 
     # find keystroke results from this quiz
@@ -86,6 +83,10 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
       results[student.moodle_username]['face'] = result.distance
 
     context["result_iteritems"] = results.iteritems()
+    keystroke_distances = [value['keystroke'] for key, value in results.iteritems()]
+    face_distances = [value['face'] for key, value in results.iteritems()]
+    context["avg_keystroke_distance"] = sum(keystroke_distances)/len(keystroke_distances)
+    context["avg_face_distance"] = sum(face_distances)/len(face_distances)
 
     return context
 
@@ -103,4 +104,7 @@ class DashQuizAdd(LoginRequiredMixin, FormMixin, TemplateView):
       return HttpResponseRedirect("/dash/quiz/results")
     else:
       return self.form_invalid(form)
+
+class Dash(LoginRequiredMixin, TemplateView):
+  template_name = "dash_index.html"
     

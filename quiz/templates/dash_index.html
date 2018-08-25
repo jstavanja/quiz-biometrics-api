@@ -11,10 +11,10 @@
     <div class="ui inverted masthead segment">
       <div class="ui inverted container">
         <div class="ui inverted secondary menu">
-          <a class="item" href="/dash">
+          <a class="active item" href="/dash">
             Home
           </a>
-          <a class="active item" href="/dash/quiz">
+          <a class="item" href="/dash/quiz">
             Quiz
           </a>
           <a class="item" href="/dash/keystroke_test">
@@ -29,29 +29,27 @@
             </div>
           </div>
         </div>
-        <a href="/dash/quiz"><i class="arrow alternate circle left icon"></i> Back to quiz index</a>
-        <h2>Add a new quiz</h2>
+        <h2>Professor dashboard [Online Quiz Biometrics]</h2>
       </div>
     </div>
   </header>
   <div class="ui vertical segment">
-    <div class="ui center container">
-        <form method="post" action="">
-          {% csrf_token %}
-          {% for field in form %}
-            {{ field.label }}
-            <div class="ui input raised segment container">
-              {{ field }}
-            </div>
-          
-          {% endfor %}
-          <!-- <table>
-            {{ track_formset }}
-          </table> -->
-          <div class="ui input vertical segment">
-            <input type="submit" class="ui primary button"/>
+    <div class="ui segment container">
+      <h4>What do you wish to do?</h4>
+    </div>
+    <div class="ui container">
+      <div class="ui two item menu">
+        <a href="/dash/quiz">
+          <div class="item">
+            <div class="ui primary button">Edit quizzes</h4>
           </div>
-        </form>
+        </a>
+        <a href="/dash/keystroke_test">
+          <div class="item">
+            <div class="ui button">Edit keystroke test types</h4>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </body>

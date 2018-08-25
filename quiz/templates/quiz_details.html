@@ -11,8 +11,14 @@
     <div class="ui inverted masthead segment">
       <div class="ui inverted container">
         <div class="ui inverted secondary menu">
+          <a class="item" href="/dash">
+            Home
+          </a>
           <a class="active item" href="/dash/quiz">
             Quiz
+          </a>
+          <a class="item" href="/dash/keystroke_test">
+            Keystroke test
           </a>
           <a class="item" href="/admin">
             Back to django dashboard
@@ -40,12 +46,33 @@
         {% for user, user_result in result_iteritems %}
           <tr>
             <td><a href="http://localhost:8888/moodle33/user/profile.php?id={{ user }}">{{ user }}</a></td>
-            <td>{{ user_result.keystroke }}</td>
-            <td>{{ user_result.face }}</td>
+            <td>
+              {% if user_result.keystroke > avg_keystroke_distance %}
+                <span class="ui red label">{{ user_result.keystroke }}</span>
+              {% else %}
+                <span class="ui green label">{{ user_result.keystroke }}</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if user_result.face > avg_face_distance %}
+                <span class="ui red label">{{ user_result.face }}</span>
+              {% else %}
+                <span class="ui green label">{{ user_result.face }}</span>
+              {% endif %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      <div class="ui raised segment">
+        <div class="ui container">
+            Average distance for keystroke test: <div class="ui label">{{ avg_keystroke_distance }}</div>
+        </div>
+        <br>
+        <div class="ui container">
+          Average distance for face test: <div class="ui label">{{ avg_face_distance }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
