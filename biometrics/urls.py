@@ -20,6 +20,10 @@ urlpatterns = [
     url(r'^dash/quiz/add$', quiz_views.DashQuizAdd.as_view()),
     url(r'^dash/quiz/results$', quiz_views.DashQuizList.as_view()),
     url(r'^dash/quiz/results/(?P<pk>\d+)/$', quiz_views.DashQuizResult.as_view()),
+    url(r'^dash/keystroke_test$', keystroke_views.KeystrokeTestTypeIndex.as_view()),
+    url(r'^dash/keystroke_test/add$', keystroke_views.KeystrokeTestTypeAdd.as_view()),
+    url(r'^dash/keystroke_test/list$', keystroke_views.KeystrokeTestTypeList.as_view()),
+    url(r'^dash/keystroke_test/type/(?P<pk>\d+)/$', keystroke_views.KeystrokeTestTypeUpdate.as_view()),
 ]
 
 url = format_suffix_patterns(urlpatterns)

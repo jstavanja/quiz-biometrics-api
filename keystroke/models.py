@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import *
 
 from student.models import Student
 
 class KeystrokeTestType(models.Model):
+  owner = models.ForeignKey(User, null=True)
   input_text = models.CharField(max_length=5000)
   repetitions = models.IntegerField()
 

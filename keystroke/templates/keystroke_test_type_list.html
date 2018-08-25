@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quiz Result List</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+</head>
+<body>
+  <header>
+    <div class="ui inverted masthead segment">
+      <div class="ui inverted container">
+        <div class="ui inverted secondary menu">
+          <a class="item" href="/dash">
+            Home
+          </a>
+          <a class="item" href="/dash/quiz">
+            Quiz
+          </a>
+          <a class="active item" href="/dash/keystroke_test">
+            Keystroke test
+          </a>
+          <a class="item" href="/admin">
+            Back to django dashboard
+          </a>
+          <div class="right menu">
+            <div class="item">
+              <i class="user icon"></i> Hello, {{ request.user }}
+            </div>
+          </div>
+        </div>
+        <a href="/dash/keystroke_test"><i class="arrow alternate circle left icon"></i> Back to keystroke test index</a>
+        <h2>Keystroke test types</h2>
+      </div>
+    </div>
+  </header>
+  <div class="ui vertical segment">
+    <div class="ui center container">
+        <div class="ui tall stacked segment">
+          <div class="ui relaxed divided striped list">
+            {% for type in test_types %}
+            <div class="item">
+              <i class="large question circle middle aligned icon"></i>
+              <div class="content">
+                  <a class="header" href="/dash/keystroke_test/type/{{ type.id }}">{{ type.input_text }}</a>
+                  <div class="description">{{ type.repetitions }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
