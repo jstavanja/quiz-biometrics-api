@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quiz Result List</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+</head>
+<body>
+  <div class="ui inverted masthead vertical segment">
+    <div class="ui container">
+      <h2>Quiz Result List</h2>
+      <p>Choose a quiz from the list to see the students authentication results.</p>
+    </div>
+  </div>
+  <div class="ui center container">
+    <div class="ui vertical segment">
+      {% for quiz in quizzes %}
+        <a href="/dash/quiz/results/{{ quiz.id }}"><li><b>{{ quiz.title }}</b> {{ quiz.date_of_quiz }} </li></a>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

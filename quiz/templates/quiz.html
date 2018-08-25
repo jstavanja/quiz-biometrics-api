@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quiz Results</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+</head>
+<body>
+  <div class="ui inverted masthead vertical segment">
+    <div class="ui container">
+      <a href="/dash/quiz/results">Back to quiz list</a>
+      <h2>{{ quiz }} results</h2>
+    </div>
+  </div>
+  <div class="ui center container">
+    <div class="ui vertical segment">
+      <table class="ui celled table">
+        <thead>
+          <th>user</th>
+          <th>keystroke distance</th>
+          <th>face distance</th>
+        </thead>
+        <tbody>
+        {% for user, user_result in result_iteritems %}
+          <tr>
+            <td>{{ user }}</td>
+            <td>{{ user_result.keystroke }}</td>
+            <td>{{ user_result.face }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
