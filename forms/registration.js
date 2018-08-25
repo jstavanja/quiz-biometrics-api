@@ -27,6 +27,19 @@ function getUserId() {
     return params.user
 }
 
+function getQuizId() {
+  let regex = /[?&]([^=#]+)=([^&#]*)/g,
+        url = window.location.href,
+        params = {},
+        match;
+
+    while (match = regex.exec(url)) {
+        params[match[1]] = match[2];
+    }
+
+    return params.quizId
+}
+
 const measureTimes = (e) => {
   recordDownUpDuration(e)
 }
@@ -205,7 +218,7 @@ window.onload = () => {
   })
 
   // get the recording test settings from the central API
-  axios.get('http://localhost:8000/quiz/2') // TODO: remove hardcoded number
+  axios.get('http://localhost:8000/quiz/' + getQuizId()) // TODO: remove hardcoded number
     .then((response) => {
       word = response.data.keystroke_test_type.input_text,
       allRepetitions = response.data.keystroke_test_type.repetitions
