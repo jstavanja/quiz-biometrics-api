@@ -30,7 +30,7 @@ COPY . /code
 
 ADD ./openface /root/openface
 RUN python -m pip install --upgrade --force pip
-RUN pip install -r requirements.txt --ignore-installed
+RUN pip install -r requirements.txt --ignore-installed --default-timeout=100
 RUN cd ~/openface && \
     ./models/get-models.sh && \
     python2 setup.py install
