@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Keystroke measuring</title>
+  <script src="./registration.js"></script>
+  <script src="./keycode_map.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+  
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous">
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+  <link rel="stylesheet" href="index.css">
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  
+  <!-- Page Contents -->
+  <div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment">
+      <div class="ui text container password_display">
+        <h3>Password:</h3>
+        <div class="ui huge primary button" id="wordDisplay">q-vDf}784L</i></div>
+      </div>
+
+      <div class="ui huge secondary button progress_password_text" ><span id="remainingRepetitions">loading ...</span> more tries needed</i></div>
+
+      <div id="wordInputWrapper" class="ui icon input loading">
+        <input type="text" id="wordInput" placeholder="Enter word here ...">
+        <i class="check icon"></i>
+      </div>
+
+      <div class="ui huge secondary button" id="keystroke_finish_text" style="display:none">
+          Password test finished  <i class="check circle icon"></i>
+      </div>
+
+      <div id="face_finish_text" style="display:none">
+          <div class="ui huge secondary button">
+              Face test finished  <i class="check circle icon"></i>
+          </div>
+          <h2 class="ui text container">Good luck!</h2>
+      </div>
+      
+
+      <div id="image-upload-inputs" style="display:none">
+        <h3>Upload an image of your face:</h3>
+        <input type="file" id="face" name="face_image">
+      </div>
+
+      <div id="image-upload-loader" style="display:none">
+        Uploading and comparing your image ...
+        <div class="ui active inline loader"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- modals -->
+  <div class="ui basic modal restart">
+    <div class="ui icon header">
+      <i class="ban icon"></i>
+      Incorrect letter pressed.
+    </div>
+    <div class="content">
+      <p>Restarting ...</p>
+    </div>
+  </div>
+
+  <div class="ui basic modal speed-restart">
+    <div class="ui icon header">
+      <i class="ban icon"></i>
+      You were typing too fast.
+    </div>
+    <div class="content">
+      <p>Restarting ...</p>
+    </div>
+  </div>
+
+  <div class="ui basic modal success">
+    <div class="ui icon header">
+      <i class="checkmark icon"></i>
+      Try successful. Type the word again.
+    </div>
+    <div class="content">
+      <p>Restarting ...</p>
+    </div>
+  </div>
+  
+</body>
+</html>

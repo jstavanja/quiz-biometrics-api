@@ -14,5 +14,15 @@ class Student(models.Model):
   moodle_username = models.CharField(max_length=250)
   face_image = models.ImageField(upload_to=face_image_directory_path)
 
+  # so we can use the face_image_directory_path function @ registration
+  def save(self, *args, **kwargs):
+    if self.pk is None:
+      saved_image = self.face_image
+      self.face_image = None
+      super(Student, self).save(*args, **kwargs)
+      self.face_image = saved_image
+
+    super(Student, self).save(*args, **kwargs)
+
   def __str__(self):
     return self.moodle_username
