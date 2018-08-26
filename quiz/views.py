@@ -95,6 +95,11 @@ class DashQuizAdd(LoginRequiredMixin, FormMixin, TemplateView):
   template_name = "quiz_add.html"
   form_class = QuizForm
 
+  def get_form_kwargs(self):
+    kwargs = super(DashQuizAdd, self).get_form_kwargs()
+    kwargs.update({'owner': self.request.user})
+    return kwargs
+
   def post(self , request , *args , **kwargs):
     form = self.get_form()
     if form.is_valid():
