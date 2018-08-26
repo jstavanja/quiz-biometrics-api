@@ -26,6 +26,6 @@ class Detector:
       lastSessionAvg = sessionAverage(self.last_matrix)
 
       percent_matches = [min(prev, last)/max(prev,last) for prev, last in zip(previousSessionsAvg, lastSessionAvg)]
-      percent_total_match = round((sum(percent_matches) / len(percent_matches)) * 100, 2)
+      percent_total_match = (sum(percent_matches) / len(percent_matches)) * 100
 
       return percent_total_match

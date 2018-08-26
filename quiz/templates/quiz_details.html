@@ -43,10 +43,11 @@
   </header>
   <div class="ui center container">
     <div class="ui vertical segment">
+      <p>A good keystroke match is considered to be anything above 70%, and a good face match is anything above <a href="https://cmusatyalab.github.io/openface/demo-2-comparison/">75.25%</a>.</p>
       <table class="ui celled table">
         <thead>
           <th>user</th>
-          <th>keystroke distance</th>
+          <th>keystroke match</th>
           <th>face distance</th>
         </thead>
         <tbody>
@@ -56,17 +57,20 @@
             <td>
               {% if user_result.keystroke < 50 %}
                 <span class="ui red label">{{ user_result.keystroke }}% match</span>
-              {% elif user_result.keystroke < 75 %}
+              {% elif user_result.keystroke < 70 %}
                 <span class="ui orange label">{{ user_result.keystroke }}% match</span>
               {% else %}
                 <span class="ui green label">{{ user_result.keystroke }}% match</span>
               {% endif %}
             </td>
             <td>
-              {% if user_result.face > avg_face_distance %}
-                <span class="ui red label">{{ user_result.face }}</span>
+              <!-- according to: https://cmusatyalab.github.io/openface/demo-2-comparison/ -> treshold set to 0.99 -->
+              {% if user_result.face < 75.25 %}
+                <span class="ui red label">{{ user_result.face }}% match</span>
+              {% elif user_result.face < 80 %}
+                <span class="ui orange label">{{ user_result.face }}% match</span>
               {% else %}
-                <span class="ui green label">{{ user_result.face }}</span>
+                <span class="ui green label">{{ user_result.face }}% match</span>
               {% endif %}
             </td>
           </tr>
@@ -75,11 +79,11 @@
       </table>
       <div class="ui raised segment">
         <div class="ui container">
-            Average distance for keystroke test: <div class="ui label">{{ avg_keystroke_distance }}</div>
+            Average match for keystroke test: <div class="ui blue label">{{ avg_keystroke_distance }}%</div>
         </div>
         <br>
         <div class="ui container">
-          Average distance for face test: <div class="ui label">{{ avg_face_distance }}</div>
+          Average match for face test: <div class="ui blue label">{{ avg_face_distance }}%</div>
         </div>
       </div>
     </div>

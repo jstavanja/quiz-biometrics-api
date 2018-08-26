@@ -75,7 +75,10 @@ class Detector():
     # get the squared dot product and get rid of negatives
     dot = np.dot(distance, distance)
 
-    # print distance
-    return dot
+    # representations are on the unit hypersphere, so the scores range from 0 to 4 (https://cmusatyalab.github.io/openface/demo-2-comparison/)
+    percent_match = ((4 - dot) / 4) * 100
+
+    # get percent match
+    return percent_match
 
 

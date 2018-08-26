@@ -96,26 +96,26 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
       
       if (results.get(student.moodle_username) is None):
         results[student.moodle_username] = {}
-      results[student.moodle_username]['keystroke'] = result.distance
+      results[student.moodle_username]['keystroke'] = round(result.distance, 2)
 
     for result in face_results:
       student = Student.objects.filter(id=result.student_id)[0]
 
       if (results.get(student.moodle_username) is None):
         results[student.moodle_username] = {}
-      results[student.moodle_username]['face'] = result.distance
+      results[student.moodle_username]['face'] = round(result.distance, 2)
 
     context["result_iteritems"] = results.iteritems()
     
     keystroke_distances = [value['keystroke'] for key, value in results.iteritems()]
     face_distances = [value['face'] for key, value in results.iteritems()]
     if len(keystroke_distances) > 0:
-      context["avg_keystroke_distance"] = sum(keystroke_distances)/len(keystroke_distances)
+      context["avg_keystroke_distance"] = round(sum(keystroke_distances)/len(keystroke_distances), 2)
     else:
       context["avg_keystroke_distance"] = 0
     
     if len(face_distances) > 0:
-      context["avg_face_distance"] = sum(face_distances)/len(face_distances)
+      context["avg_face_distance"] = round(sum(face_distances)/len(face_distances), 2)
     else:
       context["avg_face_distance"] = 0
 
