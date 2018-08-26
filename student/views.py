@@ -24,24 +24,23 @@ class StudentAPIView(generics.ListAPIView):
 
   def post(self, request, *args, **kwargs):
     user_id = request.POST.get('user_id')
-
-    try:
-      image = request.FILES['face_image']
-    except KeyError:
-      raise ParseError('Request has no resource file attached')
       
     timing_matrix = request.POST.get('timing_matrix')
     quiz_id = request.POST.get('quiz_id')
+    student = None
 
     if Student.objects.filter(moodle_username = user_id).exists():
       student = Student.objects.filter(moodle_username = user_id)[0]
     else:
+      try:
+        image = request.FILES['face_image']
+      except KeyError:
+        raise ParseError('Request has no resource file attached')
       student = Student(moodle_username = user_id, face_image = image)
+      student.save()
 
     quiz = Quiz.objects.filter(id=quiz_id)[0]
     test_type = quiz.keystroke_test_type
-
-    student.save()
 
     keystroke_session = KeystrokeTestSession(student = student, test_type = test_type, timing_matrix = timing_matrix)
     keystroke_session.save()

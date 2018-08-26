@@ -158,7 +158,20 @@ const checkIfEndOfTest = () => {
     $('.password_display').hide();
     $('.progress_password_text').hide();
     $('#keystroke_finish_text').show();
-    $('#image-upload-inputs').show();
+    
+    if (!studentHasImage) {
+      $('#image-upload-inputs').show();
+    } else {
+      const formData = new FormData()
+      formData.append('user_id', window.currentUser)
+      formData.append('quiz_id', quizID)
+      formData.append('timing_matrix', JSON.stringify(convertToCSV(allData)))
+      axios.post('http://localhost:8000/student/register', formData)
+      .then((res) => {
+        $('#image-upload-inputs').hide();
+        $('#face_finish_text').show();
+      })
+    }
 
     document.querySelector('body').classList.add('test-complete');
   }
@@ -225,16 +238,29 @@ window.onload = () => {
       remainingRepetitions = allRepetitions
       keystrokeTestID = response.data.keystroke_test_type.id
       quizID = response.data.id
+      studentHasRecord = false
+      studentHasImage = false
 
-      wordDisplay.innerHTML = word
-      repetitionDisplay.innerHTML = remainingRepetitions
+      axios.get('http://localhost:8000/quiz/' + quizID + '/student_status/' + window.currentUser)
+        .then(res => {
+          studentHasRecord = res.data.has_record
+          studentHasImage = res.data.has_picture
+    
+          if (studentHasRecord) {
+            $('#wordInputWrapper').hide()
+            $('.password_display').hide()
+            $('.progress_password_text').hide()
+            $('#has_record_text').show()
+          }
+    
+          wordDisplay.innerHTML = word
+          repetitionDisplay.innerHTML = remainingRepetitions
+        })
     })
 
     window.currentUser = getUserId()
 
     setImageInputListener()
-  
-  // TODO: add check if current moodle user is registered already
   
   wordInput.onkeydown = wordInput.onkeyup = measureTimes
 }
@@ -256,7 +282,6 @@ function setImageInputListener() {
     $('#image-upload-loader').show();
     axios.post('http://localhost:8000/student/register', formData)
       .then((res) => {
-
         $('#image-upload-loader').hide();
         $('#face_finish_text').show();
         $('#image-upload-inputs').hide();

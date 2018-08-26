@@ -93,7 +93,7 @@ class KeystrokeTestTypeAdd(LoginRequiredMixin, FormMixin, TemplateView):
       instance = form.save(commit=False)
       instance.owner = self.request.user
       instance.save()
-      return HttpResponseRedirect("/dash/keystroke_test/types")
+      return HttpResponseRedirect("/dash/keystroke_test/list")
     else:
       return self.form_invalid(form)
 

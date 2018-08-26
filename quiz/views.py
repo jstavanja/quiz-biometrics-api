@@ -5,8 +5,9 @@ import json
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
+from django.views import View
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.views.generic.base import TemplateView
 
 from rest_framework import generics, mixins
@@ -17,7 +18,7 @@ from rest_framework import status
 from .serializers import QuizSerializer
 from keystroke.serializers import KeystrokeTestTypeSerializer
 from .models import Quiz
-from keystroke.models import KeystrokeTestType, KeystrokeTestComparisonResult
+from keystroke.models import KeystrokeTestType, KeystrokeTestComparisonResult, KeystrokeTestSession
 from face.models import FaceComparisonResult
 from student.models import Student
 
@@ -30,7 +31,29 @@ class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
   def get_queryset(self):
     return Quiz.objects.all()
 
-# TODO: display only quizzes that the current user has created
+
+class QuizStudentStatusView(View):
+
+  def get(self, request, *args, **kwargs):
+
+    student_id = self.kwargs['student_id']
+
+    if not Student.objects.filter(moodle_username = student_id).exists():
+      return JsonResponse({
+        "has_record": False,
+        "has_picture": False
+      })
+    else:
+      student = Student.objects.filter(moodle_username = student_id)[0]
+      quiz_id = self.kwargs['quiz_id']
+      quiz = Quiz.objects.filter(id = quiz_id)[0]
+      test_type = quiz.keystroke_test_type
+
+      return JsonResponse({
+        "has_record": KeystrokeTestSession.objects.filter(student = student, test_type = test_type).exists(),
+        "has_picture": True
+      })
+      
 
 class DashQuiz(LoginRequiredMixin, TemplateView):
   template_name = "quiz_index.html"

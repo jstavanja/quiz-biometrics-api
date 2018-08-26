@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^keystroke/distance$', keystroke_views.KeystrokeTestDistanceAPIView.as_view()),
     url(r'^face/distance$', face_views.FaceDistanceAPIView.as_view()),
     url(r'^quiz/(?P<pk>\d+)/$', quiz_views.QuizInfoAPIView.as_view()),
+    url(r'^quiz/(?P<quiz_id>\d+)/student_status/(?P<student_id>\d+)/$', quiz_views.QuizStudentStatusView.as_view()),
     url(r'^dash/$', quiz_views.Dash.as_view()),
     url(r'^dash/quiz$', quiz_views.DashQuiz.as_view()),
     url(r'^dash/quiz/add$', quiz_views.DashQuizAdd.as_view()),
