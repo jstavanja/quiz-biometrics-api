@@ -33,7 +33,10 @@ class StudentAPIView(generics.ListAPIView):
     timing_matrix = request.POST.get('timing_matrix')
     quiz_id = request.POST.get('quiz_id')
 
-    student = Student(moodle_username = user_id, face_image = image)
+    if Student.objects.filter(moodle_username = user_id).exists():
+      student = Student.objects.filter(moodle_username = user_id)[0]
+    else:
+      student = Student(moodle_username = user_id, face_image = image)
 
     quiz = Quiz.objects.filter(id=quiz_id)[0]
     test_type = quiz.keystroke_test_type
