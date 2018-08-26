@@ -39,12 +39,12 @@ Clone the git repository https://github.com/jstavanja/quiz-biometrics-plugin to 
 First, go inside the api project and go into the folder forms, and serve it with a server on port 1337 (or change both this port and the port in the Moodle plugin as well). I found the easiest way for testing and development to be running this python module:
 ```bash
 python -m SimpleHTTPServer 1337
-````
+```
 This will provide all the forms and static files for the forms that the students will be using.
 
 To add a registration question to a quiz, make a quiz and add a question with the type keystrokerecorder (has to be renamed in the future to something like biometricsquestion).
 
-DEV PHASE: in the current phase, there is still work to be done on the Moodle side of things, so now you have to go into the renderer.php of the questiontype plugin and change the variable $quiz_id to the ID of the Quiz from the api you wish to test. A secure way of fetching a quiz ID still has to be implemented.
+DEV PHASE: in the current phase, you can edit the moodle quiz ID you wish to use in the forms parameter *Quiz ID from the dashboard*. Security for random people to not be able to access other people's forms still needs to be implemented.
 
 After you set the correct ID to that variable (you may possibly need to clean the Moodle caches at admin/purgecaches.php) you should be able to create registration and test questions.
 
