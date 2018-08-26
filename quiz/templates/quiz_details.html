@@ -30,7 +30,14 @@
           </div>
         </div>
         <a href="/dash/quiz/results"><i class="arrow alternate circle left icon"></i> Back to quiz list</a>
-        <h2>{{ quiz }} results</h2>
+        <div class="ui inverted horizontal segments">
+          <div class="ui segment">
+            <h2>{{ quiz }} results</h2>
+          </div>
+          <div class="ui segment">
+            <h2>Quiz ID:<span class="ui red label big">{{ quiz.id }}</span></h2>
+          </div>
+        </div>
       </div>
     </div>
   </header>
