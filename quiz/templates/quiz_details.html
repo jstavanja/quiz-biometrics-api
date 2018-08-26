@@ -54,10 +54,12 @@
           <tr>
             <td><a href="http://localhost:8888/moodle33/user/profile.php?id={{ user }}">{{ user }}</a></td>
             <td>
-              {% if user_result.keystroke > avg_keystroke_distance %}
-                <span class="ui red label">{{ user_result.keystroke }}</span>
+              {% if user_result.keystroke < 50 %}
+                <span class="ui red label">{{ user_result.keystroke }}% match</span>
+              {% elif user_result.keystroke < 75 %}
+                <span class="ui orange label">{{ user_result.keystroke }}% match</span>
               {% else %}
-                <span class="ui green label">{{ user_result.keystroke }}</span>
+                <span class="ui green label">{{ user_result.keystroke }}% match</span>
               {% endif %}
             </td>
             <td>

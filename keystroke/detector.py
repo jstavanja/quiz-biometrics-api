@@ -25,7 +25,7 @@ class Detector:
       # compute column means for the last (current) session's timing matrix
       lastSessionAvg = sessionAverage(self.last_matrix)
 
-      # compute the euclidean distance between the past tests' times
-      # and the current test's times
-      dist = np.linalg.norm(previousSessionsAvg-lastSessionAvg)
-      return dist
+      percent_matches = [min(prev, last)/max(prev,last) for prev, last in zip(previousSessionsAvg, lastSessionAvg)]
+      percent_total_match = round((sum(percent_matches) / len(percent_matches)) * 100, 2)
+
+      return percent_total_match
