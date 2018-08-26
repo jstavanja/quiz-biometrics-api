@@ -83,10 +83,18 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
       results[student.moodle_username]['face'] = result.distance
 
     context["result_iteritems"] = results.iteritems()
+    
     keystroke_distances = [value['keystroke'] for key, value in results.iteritems()]
     face_distances = [value['face'] for key, value in results.iteritems()]
-    context["avg_keystroke_distance"] = sum(keystroke_distances)/len(keystroke_distances)
-    context["avg_face_distance"] = sum(face_distances)/len(face_distances)
+    if len(keystroke_distances) > 0:
+      context["avg_keystroke_distance"] = sum(keystroke_distances)/len(keystroke_distances)
+    else:
+      context["avg_keystroke_distance"] = 0
+    
+    if len(face_distances) > 0:
+      context["avg_face_distance"] = sum(face_distances)/len(face_distances)
+    else:
+      context["avg_face_distance"] = 0
 
     return context
 
