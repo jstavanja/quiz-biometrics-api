@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'student.apps.StudentConfig',
     'face.apps.FaceConfig',
     'quiz.apps.QuizConfig',
+    'course.apps.CourseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,3 +141,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/admin/login'
+LOGIN_REDIRECT_URL = '/logged_in'

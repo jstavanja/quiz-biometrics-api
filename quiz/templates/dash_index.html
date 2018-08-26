@@ -14,6 +14,9 @@
           <a class="active item" href="/dash">
             Home
           </a>
+          <a class="item" href="/dash/course">
+            Course
+          </a>
           <a class="item" href="/dash/quiz">
             Quiz
           </a>
@@ -26,6 +29,9 @@
           <div class="right menu">
             <div class="item">
               <i class="user icon"></i> Hello, {{ request.user }}
+            </div>
+            <div class="item">
+              <a href="/logout"><i class="sign-out icon"></i> Logout</a>
             </div>
           </div>
         </div>

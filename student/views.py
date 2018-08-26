@@ -40,7 +40,8 @@ class StudentAPIView(generics.ListAPIView):
       student.save()
 
     quiz = Quiz.objects.filter(id=quiz_id)[0]
-    test_type = quiz.keystroke_test_type
+    course = quiz.course
+    test_type = course.keystroke_test_type
 
     keystroke_session = KeystrokeTestSession(student = student, test_type = test_type, timing_matrix = timing_matrix)
     keystroke_session.save()

@@ -10,6 +10,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.views.generic.base import TemplateView
 
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+
 from rest_framework import generics, mixins
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
@@ -21,6 +24,7 @@ from .models import Quiz
 from keystroke.models import KeystrokeTestType, KeystrokeTestComparisonResult, KeystrokeTestSession
 from face.models import FaceComparisonResult
 from student.models import Student
+from course.models import Course
 
 from .forms import QuizForm, QuizFormSet
 
@@ -30,29 +34,6 @@ class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
 
   def get_queryset(self):
     return Quiz.objects.all()
-
-
-class QuizStudentStatusView(View):
-
-  def get(self, request, *args, **kwargs):
-
-    student_id = self.kwargs['student_id']
-
-    if not Student.objects.filter(moodle_username = student_id).exists():
-      return JsonResponse({
-        "has_record": False,
-        "has_picture": False
-      })
-    else:
-      student = Student.objects.filter(moodle_username = student_id)[0]
-      quiz_id = self.kwargs['quiz_id']
-      quiz = Quiz.objects.filter(id = quiz_id)[0]
-      test_type = quiz.keystroke_test_type
-
-      return JsonResponse({
-        "has_record": KeystrokeTestSession.objects.filter(student = student, test_type = test_type).exists(),
-        "has_picture": True
-      })
       
 
 class DashQuiz(LoginRequiredMixin, TemplateView):
@@ -64,7 +45,8 @@ class DashQuizList(LoginRequiredMixin, TemplateView):
 
   def get_context_data(self, **kwargs):
     context = super(DashQuizList, self).get_context_data(**kwargs)
-    context["quizzes"] = Quiz.objects.filter(quiz_owner = self.request.user).values()
+    users_courses = Course.objects.filter(owner = self.request.user)
+    context["quizzes"] = Quiz.objects.filter(course__in = users_courses).values()
     return context
 
 class DashQuizResult(LoginRequiredMixin, TemplateView):
@@ -77,7 +59,7 @@ class DashQuizResult(LoginRequiredMixin, TemplateView):
     quiz_id = self.kwargs['pk']
     quiz = Quiz.objects.filter(id=quiz_id)[0]
 
-    if quiz.quiz_owner != self.request.user:
+    if quiz.course.owner != self.request.user:
       raise Http404
 
     context["quiz"] = quiz
@@ -135,12 +117,18 @@ class DashQuizAdd(LoginRequiredMixin, FormMixin, TemplateView):
     form = self.get_form()
     if form.is_valid():
       instance = form.save(commit=False)
-      instance.quiz_owner = self.request.user
+      instance.course = Course.objects.filter(id = self.kwargs["course_id"])[0]
       instance.save()
-      return HttpResponseRedirect("/dash/quiz/results")
+      return HttpResponseRedirect("/dash/course/" + self.kwargs["course_id"])
     else:
       return self.form_invalid(form)
 
 class Dash(LoginRequiredMixin, TemplateView):
   template_name = "dash_index.html"
     
+@login_required
+def redirect_to_dash(request):
+  return HttpResponseRedirect(
+    reverse(Dash.as_view(), 
+            args=[request.user.username]))
+

@@ -229,10 +229,10 @@ window.onload = () => {
   // get the recording test settings from the central API
   axios.get('http://localhost:8000/quiz/' + getQuizId()) // TODO: remove hardcoded number
     .then((response) => {
-      word = response.data.keystroke_test_type.input_text,
-      allRepetitions = response.data.keystroke_test_type.repetitions
+      word = response.data.course.keystroke_test_type.input_text,
+      allRepetitions = response.data.course.keystroke_test_type.repetitions
       remainingRepetitions = allRepetitions
-      keystrokeTestID = response.data.keystroke_test_type.id
+      keystrokeTestID = response.data.course.keystroke_test_type.id
       quizID = response.data.id
 
       wordDisplay.innerHTML = word

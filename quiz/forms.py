@@ -9,11 +9,10 @@ class QuizForm(ModelForm):
   def __init__(self, *args, **kwargs):
     self.user = kwargs.pop('owner')
     super(QuizForm, self).__init__(*args, **kwargs)
-    self.fields['keystroke_test_type'].queryset = KeystrokeTestType.objects.filter(owner=self.user)
 
   class Meta:
     model = Quiz
     fields = '__all__'
-    exclude = ['quiz_owner']
+    exclude = ['course']
 
 QuizFormSet = modelformset_factory(Quiz, form=QuizForm)

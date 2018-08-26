@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Quiz Result List</title>
+  <title>Course List</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
 </head>
 <body>
@@ -14,13 +14,13 @@
           <a class="item" href="/dash">
             Home
           </a>
-          <a class="item" href="/dash/course">
+          <a class="active item" href="/dash/course">
             Course
           </a>
           <a class="item" href="/dash/quiz">
             Quiz
           </a>
-          <a class="active item" href="/dash/keystroke_test">
+          <a class="item" href="/dash/keystroke_test">
             Keystroke test
           </a>
           <a class="item" href="/admin">
@@ -35,26 +35,26 @@
             </div>
           </div>
         </div>
-        <a href="/dash/keystroke_test"><i class="arrow alternate circle left icon"></i> Back to keystroke test index</a>
-        <h2>Keystroke test types</h2>
+        <a href="/dash/quiz"><i class="arrow alternate circle left icon"></i> Back to course index</a>
+        <h2>Course List</h2>
       </div>
     </div>
   </header>
   <div class="ui vertical segment">
     <div class="ui center container">
-        <div class="ui tall stacked segment">
-          <div class="ui relaxed divided striped list">
-            {% for type in test_types %}
-            <div class="item">
-              <i class="large question circle middle aligned icon"></i>
-              <div class="content">
-                  <a class="header" href="/dash/keystroke_test/type/{{ type.id }}">{{ type.input_text }}</a>
-                  <div class="description">{{ type.repetitions }}</div>
-              </div>
+      <p>Choose a course from the list to see it's quizzes.</p>
+      <div class="ui tall stacked segment">
+        <div class="ui relaxed divided striped list">
+          {% for course in courses %}
+          <div class="item">
+            <i class="large question circle middle aligned icon"></i>
+            <div class="content">
+                <a class="header" href="/dash/course/{{ course.id }}">{{ course.name }}</a>
             </div>
-            {% endfor %}
           </div>
+          {% endfor %}
         </div>
+      </div>
     </div>
   </div>
 </body>

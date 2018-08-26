@@ -61,7 +61,7 @@ class KeystrokeTestDistanceAPIView(generics.ListAPIView):
     user = Student.objects.filter(moodle_username=req['moodle_username'])[0]
     user_id = user.id
     quiz = Quiz.objects.filter(id=req['quiz_id'])[0]
-    test_type_id = quiz.keystroke_test_type.id
+    test_type_id = quiz.course.keystroke_test_type.id
     test_type = KeystrokeTestType.objects.filter(id=test_type_id)[0]
 
     print "test"

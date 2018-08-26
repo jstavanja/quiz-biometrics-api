@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from .models import Quiz
 
-from keystroke.serializers import KeystrokeTestTypeSerializer
+from course.serializers import CourseSerializer
+from .models import Quiz
 
 class QuizSerializer(serializers.ModelSerializer):
-  keystroke_test_type = KeystrokeTestTypeSerializer(read_only=True)
+  course = CourseSerializer(read_only=True)
   
   class Meta:
     model = Quiz
