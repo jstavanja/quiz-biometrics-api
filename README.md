@@ -10,8 +10,8 @@ Then run these commands:
 
 ```bash
 docker-compose build
-run docker-compose run web python manage.py migrate
-run docker-compose run web python manage.py createsuperuser
+docker-compose run web python manage.py migrate
+docker-compose run web python manage.py createsuperuser
 ```
 After the createsuperuser command, enter user credentials for the super user that you wish to use.
 
