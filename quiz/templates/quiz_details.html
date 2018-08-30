@@ -72,9 +72,9 @@
             </td>
             <td>
               <!-- according to: https://cmusatyalab.github.io/openface/demo-2-comparison/ -> treshold set to 0.99 -->
-              {% if user_result.face < 75.25 %}
+              {% if user_result.face < 70 %}
                 <span class="ui red label">{{ user_result.face }}% match</span>
-              {% elif user_result.face < 80 %}
+              {% elif user_result.face < 75.25 %}
                 <span class="ui orange label">{{ user_result.face }}% match</span>
               {% else %}
                 <span class="ui green label">{{ user_result.face }}% match</span>
