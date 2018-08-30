@@ -6,7 +6,9 @@ let allData = {
 }
 
 let previousDownKey, currentUpKey, currentDownKey, // keys needed for measurements
-    wordInputWrapper, wordInput, wordDisplay, repetitionDisplay, submitUsernameButton, usernameInput, firstTimeCheckbox // DOM elements
+    wordInputWrapper, wordInput, wordDisplay, repetitionDisplay // DOM elements
+
+let keystrokeTestID, quizID // other global data variables
 
 // default settings, later pulled from api
 let word = 'loading', allRepetitions = 10, remainingRepetitions
@@ -14,30 +16,14 @@ let word = 'loading', allRepetitions = 10, remainingRepetitions
 // other variables, needed for computations and checks
 let currentIndexWritten = 0, hDurations = [], ddDurations = [], udDurations = [], keyTimes = {}
 
-function getUserId() {
-  let regex = /[?&]([^=#]+)=([^&#]*)/g,
-        url = window.location.href,
-        params = {},
-        match;
-
-    while (match = regex.exec(url)) {
-        params[match[1]] = match[2];
-    }
-
-    return params.user
-}
-
-function getQuizId() {
-  let regex = /[?&]([^=#]+)=([^&#]*)/g,
-        url = window.location.href,
-        params = {},
-        match;
-
-    while (match = regex.exec(url)) {
-        params[match[1]] = match[2];
-    }
-
-    return params.quizId
+const getUrlParam = (name) => {
+  url = window.location.href
+  name = name.replace(/[\[\]]/g, '\\$&')
+  let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+  let results = regex.exec(url)
+  if (!results) return null
+  if (!results[2]) return ''
+  return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
 const measureTimes = (e) => {
@@ -60,7 +46,7 @@ const recordDownUpDuration = (e) => {
     // Record key down press timestamp if key is not yet being held
     if (!e.repeat) {
       keyTimes[kc].lastDown = Date.now()
-      
+
       recordDownDownDuration(e) // compute DOWN-DOWN duration between this and the previous keydown
       recordUpDownDuration(e) // compute UP-DOWN duration between this and the previous keyup
     }
@@ -76,7 +62,7 @@ const recordDownUpDuration = (e) => {
     currentUpKey = { key: keyCodes[kc], timestamp: Date.now() }
     // after DOWN-UP pattern is complete, clear values for another possible measure
     keyTimes[kc] = {}
-    
+
     checkCorrectCharacterWritten(e)
   }
 }
@@ -153,23 +139,21 @@ const checkIfEndOfInput = () => {
 
 const checkIfEndOfTest = () => {
   if (remainingRepetitions === 0) {
-    console.log(window.currentUser)
     axios.post('http://localhost:8000/keystroke/distance', {
       "moodle_username": window.currentUser,
       "current_matrix": convertToCSV(allData),
       "test_type": keystrokeTestID,
       "quiz_id": quizID
     }).then((res) => {
-      // console.log("server returns:")
-      // console.log(res.data)
-      $('#wordInputWrapper').hide();
-      $('.password_display').hide();
-      $('.progress_password_text').hide();
-      $('#keystroke_finish_text').show();
-      $('#image-upload-inputs').show();
+      $('#wordInputWrapper').hide()
+      $('.password_display').hide()
+      $('.progress_password_text').hide()
+      $('#keystroke_finish_text').show()
+      $('#image-upload-inputs').show()
+      startVideo()
     })
 
-    document.querySelector('body').classList.add('test-complete');
+    document.querySelector('body').classList.add('test-complete')
   }
 }
 
@@ -192,7 +176,7 @@ const convertToCSV = (kd) => {
     for (let holdNumber = 0; holdNumber < holdEntrySession.length; holdNumber++) {
       let keyPress = holdEntrySession[holdNumber]
       let nextKeyPress
-      
+
       // add the hold duration
       outputVector.push(keyPress.duration)
 
@@ -213,21 +197,18 @@ const convertToCSV = (kd) => {
 
 window.onload = () => {
   // get the DOM objects we need to change/record
-  submitUsernameButton = document.getElementById('submitUsernameButton')
-  emailInput = document.getElementById('emailInput')
-  firstTimeCheckbox = document.getElementById('firstTimeCheckbox')
   wordInputWrapper = document.getElementById('wordInputWrapper')
   wordInput = document.getElementById('wordInput')
   wordDisplay = document.getElementById('wordDisplay')
   repetitionDisplay = document.getElementById('remainingRepetitions')
 
   $('#wordInput').on('blur', () => {
-    if (remainingRepetitions === 0) return false;
+    if (remainingRepetitions === 0) return false
     resetAllVariables()
   })
 
   // get the recording test settings from the central API
-  axios.get('http://localhost:8000/quiz/' + getQuizId()) // TODO: remove hardcoded number
+  axios.get('http://localhost:8000/quiz/' + getUrlParam('quizId')) // TODO: remove hardcoded number
     .then((response) => {
       word = response.data.course.keystroke_test_type.input_text,
       allRepetitions = response.data.course.keystroke_test_type.repetitions
@@ -239,40 +220,12 @@ window.onload = () => {
       repetitionDisplay.innerHTML = remainingRepetitions
     })
 
-    window.currentUser = getUserId()
+    window.currentUser = getUrlParam('user')
 
-    setImageInputListener()
-  
   // TODO: add check if current moodle user is registered in our system and has a test like this registered
   // also check if he/she/it has a picture uploaded
   // check if this user has already completed the test
 
   // bind input events to be passed into our measuring function
   wordInput.onkeydown = wordInput.onkeyup = measureTimes
-}
-
-function setImageInputListener() {
-  $('#face').on('change', (e) => {
-    let files = e.target.files || e.dataTransfer.files
-    // TODO: add check if file is jpg or png
-    if (!files.length) {
-        console.log('no files')
-    }
-    const file = new Blob([files[0]])
-    const formData = new FormData()
-    formData.append('user_id', window.currentUser)
-    formData.append('current_image', file, file.filename)
-    formData.append('quiz_id', quizID)
-    // show loader
-    $('#image-upload-loader').show();
-    axios.post('http://localhost:8000/face/distance', formData)
-      .then((res) => {
-        // add error check, listen to response (implement error response in django)
-        // console.log("server returns:")
-        // console.log(res.data)
-        $('#image-upload-loader').hide();
-        $('#face_finish_text').show();
-        $('#image-upload-inputs').hide();
-      })
-  })
 }

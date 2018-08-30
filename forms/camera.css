@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.camera-functionality {
+    width: 100%;
+    position: relative;
+}
+
+.camera-functionality #start-camera {
+    display: none;
+    border-radius: 3px;
+    max-width: 400px;
+    color: #fff;
+    background-color: #448AFF;
+    text-decoration: none;
+    padding: 15px;
+    opacity: 0.8;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.camera-functionality #camera-stream {
+    display: none;
+    width: 100%;
+    max-width: 360px;
+}
+
+.camera-functionality #snap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 360px;
+    z-index: 10;
+    display: none;
+}
+
+.camera-functionality #error-message {
+    width: 100%;
+    background-color: #ccc;
+    color: #9b9b9b;
+    font-size: 28px;
+    padding: 200px 100px;
+    text-align: center;
+    display: none;
+}
+
+.camera-functionality .controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 30px;
+    display: none;
+}
+
+.camera-functionality .controls a {
+    border-radius: 7px;
+    color: #fff;
+    background-color: #111;
+    text-decoration: none;
+    padding: 15px;
+    line-height: 0;
+    opacity: 0.6;
+    outline: none;
+    transform: scale(1);
+    transition: 0.3s all ease-in-out;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.camera-functionality .controls a:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.camera-functionality .controls a.disabled {
+    background-color: #555;
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+}
+
+.camera-functionality .controls a.disabled:hover {
+    opacity: 0.5;
+}
+
+.camera-functionality .controls a i {
+    font-size: 18px;
+}
+
+.camera-functionality .controls #take-photo i {
+    font-size: 32px;
+}
+
+.camera-functionality canvas {
+    display: none;
+}
+
+.camera-functionality #camera-stream.visible,
+.camera-functionality #snap.visible,
+.camera-functionality #error-message.visible {
+    display: block;
+}
+
+.camera-functionality .controls.visible {
+    display: flex;
+}
+
