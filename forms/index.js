@@ -57,7 +57,19 @@ const recordDownUpDuration = (e) => {
     keyTimes[kc].lastUp = Date.now()
 
     const duration = keyTimes[kc].lastUp - keyTimes[kc].lastDown
-    hDurations.push({key: keyCodes[kc], duration})
+    if (!isNaN(duration)) {
+      hDurations.push({key: keyCodes[kc], duration})
+    } else {
+      resetAllVariables()
+  
+      wordInput.blur()
+      $('.ui.basic.modal.restart').modal('show')
+      setTimeout(() => {
+        wordInput.value = ''
+        wordInput.focus()
+        $('.ui.basic.modal.restart').modal('hide')
+      }, 750)
+    }
 
     currentUpKey = { key: keyCodes[kc], timestamp: Date.now() }
     // after DOWN-UP pattern is complete, clear values for another possible measure
