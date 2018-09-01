@@ -4,6 +4,7 @@ Moodle plugin: https://github.com/jstavanja/quiz-biometrics-plugin.
 
 ## Installation and setup of Django API and backend
 First, clone the git repository https://github.com/jstavanja/quiz-biometrics-api onto your machine.
+Next, clone the *openface* repository (git clone https://github.com/cmusatyalab/openface.git) into this plugin's folder.
 
 You need to already have Docker installed on your computer along with docker compose.
 Then run these commands:
