@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <div class="ui inverted masthead segment">
+    <div class="ui inverted masthead segment" style="border-radius: 0;">
       <div class="ui inverted container">
         <div class="ui inverted secondary menu">
           <a class="item" href="/dash">
@@ -31,7 +31,7 @@
               <i class="user icon"></i> Hello, {{ request.user }}
             </div>
             <div class="item">
-              <a href="/logout"><i class="sign-out icon"></i> Logout</a>
+              <a href="/logout" class="ui icon red button">Logout</a>
             </div>
           </div>
         </div>

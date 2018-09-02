@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <div class="ui inverted masthead segment">
+    <div class="ui inverted masthead segment" style="border-radius: 0;">
       <div class="ui inverted container">
         <div class="ui inverted secondary menu">
           <a class="active item" href="/dash">
@@ -31,30 +31,32 @@
               <i class="user icon"></i> Hello, {{ request.user }}
             </div>
             <div class="item">
-              <a href="/logout"><i class="sign-out icon"></i> Logout</a>
+              <a href="/logout" class="ui icon red button">Logout</a>
             </div>
           </div>
         </div>
-        <h2>Professor dashboard [Online Quiz Biometrics]</h2>
+        <span class="ui inverted center aligned icon header">
+          <i class="circular home icon"></i>
+          Professor's dashboard
+        </span>
       </div>
     </div>
   </header>
-  <div class="ui vertical segment">
-    <div class="ui segment container">
-      <h4>What do you wish to do?</h4>
+  <div class="ui inverted vertical masthead center aligned segment" style="margin-top: -10px; min-height: 90vh;">
+    <div class="ui inverted segment container">
+      <h4>Go ahead and ...</h4>
     </div>
     <div class="ui container">
-      <div class="ui two item menu">
-        <a href="/dash/quiz">
-          <div class="item">
-            <div class="ui primary button">Edit quizzes</h4>
-          </div>
-        </a>
-        <a href="/dash/keystroke_test">
-          <div class="item">
-            <div class="ui button">Edit keystroke test types</h4>
-          </div>
-        </a>
+      <div class="ui three item menu">
+        <div class="item">
+          <a href="/dash/course" class="ui green button">Browse courses</a>
+        </div>
+        <div class="item">
+          <a href="/dash/quiz" class="ui primary button">Browse quizzes</a>
+        </div>
+        <div class="item">
+          <a href="/dash/keystroke_test" class="ui button">Browse keystroke test types</a>
+        </div>
       </div>
     </div>
   </div>

@@ -41,6 +41,11 @@ class CourseStudentStatusView(View):
 class DashCourse(LoginRequiredMixin, TemplateView):
   template_name = "course_index.html"
 
+  def get_context_data(self, **kwargs):
+    context = super(DashCourse, self).get_context_data(**kwargs)
+    context["courses"] = Course.objects.filter(owner = self.request.user).order_by('-id')[:10].values()
+    return context
+
 
 class DashCourseList(LoginRequiredMixin, TemplateView):
   template_name = "course_list.html"

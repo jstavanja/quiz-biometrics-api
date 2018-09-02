@@ -38,6 +38,11 @@ class QuizInfoAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class DashQuiz(LoginRequiredMixin, TemplateView):
   template_name = "quiz_index.html"
+  def get_context_data(self, **kwargs):
+    context = super(DashQuiz, self).get_context_data(**kwargs)
+    users_courses = Course.objects.filter(owner = self.request.user)
+    context["quizzes"] = Quiz.objects.filter(course__in = users_courses).order_by('-id')[:10].values()
+    return context
 
 
 class DashQuizList(LoginRequiredMixin, TemplateView):

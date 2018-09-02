@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <div class="ui inverted masthead segment">
+    <div class="ui inverted masthead segment" style="border-radius: 0;"> 
       <div class="ui inverted container">
         <div class="ui inverted secondary menu">
           <a class="item" href="/dash">
@@ -31,30 +31,38 @@
               <i class="user icon"></i> Hello, {{ request.user }}
             </div>
             <div class="item">
-              <a href="/logout"><i class="sign-out icon"></i> Logout</a>
+              <a href="/logout" class="ui icon red button">Logout</a>
             </div>
           </div>
         </div>
-        <h2>Quiz Module</h2>
       </div>
     </div>
   </header>
   <div class="ui vertical segment">
-    <div class="ui segment container">
-      <h4>What do you wish to do?</h4>
+    <div class="ui menu container">
+      <div class="item">
+        <span class="ui large header">Quiz Module</span>
+      </div>
+      <a href="/dash/quiz/results">
+        <div class="right item">
+          <div class="ui button">Browse quizzes</h4>
+        </div>
+      </a>
     </div>
-    <div class="ui container">
-      <div class="ui two item menu">
-        <a href="/dash/quiz/add">
-          <div class="item">
-            <div class="ui primary button">Add quiz</h4>
+  </div>
+  <div class="ui container">
+    <span class="ui header">Your recent quizzes:</span>
+    <div class="ui tall stacked segment">
+      <div class="ui relaxed divided striped list">
+        {% for quiz in quizzes %}
+        <div class="item">
+          <i class="large question circle middle aligned icon"></i>
+          <div class="content">
+              <a class="header" href="/dash/quiz/results/{{ quiz.id }}">{{ quiz.title }}</a>
+              <div class="description">{{ quiz.date_of_quiz }}</div>
           </div>
-        </a>
-        <a href="/dash/quiz/results">
-          <div class="item">
-            <div class="ui button">Browse quizzes</h4>
-          </div>
-        </a>
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

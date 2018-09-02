@@ -116,4 +116,8 @@ class KeystrokeTestTypeUpdate(LoginRequiredMixin, UpdateView):
 
 class KeystrokeTestTypeIndex(LoginRequiredMixin, TemplateView):
   template_name = "keystroke_test_type_index.html"
+  def get_context_data(self, **kwargs):
+    context = super(KeystrokeTestTypeIndex, self).get_context_data(**kwargs)
+    context["test_types"] = KeystrokeTestType.objects.filter(owner = self.request.user).order_by('-id')[:10].values()
+    return context
 
